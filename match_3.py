@@ -9,8 +9,8 @@ SCREEN_HEIGHT = 720
 SCREEN_TITLE = "Match Three!"
 NUM_OF_GEMS = 6 # can't be greater than 7 unless I make new graphics
 
-COLS = 3
-ROWS = 5
+COLS = 5
+ROWS = 8
 
 class MyGame(arcade.Window):
     """
@@ -51,27 +51,54 @@ class NumberGrid:
     """
 
 
-    def __init__(self, number_list):
+    def __init__(self):
         """
         Initializer
         """
-        self.number_list = number_list
 
         self.grid = np.empty((ROWS, COLS), dtype=object)
         self.grid.fill([0, "No Gem"])
+        self.number_list = [] # random list of numbers that feed into the number grid
 
-    def output_number_grid(self,grid):
+    def print_out_number_grid(self):
+        print ("*" * 80)
         for i in range(ROWS):
             # print("Row {}: ".format(i))
             print_row = ""
             for j in range(COLS):  
-                print_row += str(grid[i][j])
+                # print_row += str(self.grid[i][j]) 
+                print_row += (str(self.grid[i][j][0]) + "  ")  
             print(print_row + "\n")
+        print ("*" * 80)
+
+    def generate_new_number_list(self):
+        total_number_of_items_in_number_grid = np.count_nonzero(self.grid)
+        for i in range(total_number_of_items_in_number_grid):
+            random_number =  random.randint(1, NUM_OF_GEMS)
+            self.number_list.append(random_number)
+            
+    def grid_has_matches(self):
+        for i in range(ROWS):
+            for j in range(COLS):
+                # horizontal check
+                try:
+                    this_number = self.grid[i][j][0]
+                    one_to_the_left = self.grid[i][j-1][0]
+                    two_to_the_left = self.grid[i][j-2][0]
+                except:
+                    pass
+                # vertical check
+    def populate_grid_with (self, number_list):
+        for i in range(ROWS):
+            for j in range(COLS): 
+                this_number = number_list.pop(0)
+                data = [this_number, "3Gem"]
+                self.grid[i][j] = data
 
     def change_number_grid_xy(self, row, col, arg):
-
+        grid = self.grid
         grid[col-1,row-1] = [2, "gem"]
-        pass
+
     # number_grid = init_number_grid()
 
     # # populate()
@@ -79,13 +106,13 @@ class NumberGrid:
 
     # output_number_grid(number_grid)
 
-number_list = [1, 2, 3, 4, 5]
-ng = NumberGrid(number_list)
-# print(vars(ng))
-# print(number_grid.grid[3][2])
-ng.output_number_grid(ng.grid)   
-# number_grid.change_number_grid_xy(3, 5, [2, "3Gem"])
-# number_grid.output_number_grid(number_grid.grid)   
+number_grid = NumberGrid()
+number_grid.generate_new_number_list()
+
+# print(number_grid.number_list)
+number_grid.populate_grid_with(number_grid.number_list)
+
+number_grid.print_out_number_grid()   
 
 def main():
     """ Main method """
