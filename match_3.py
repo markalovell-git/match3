@@ -50,36 +50,28 @@ class NumberGrid:
     The mathematical numbergrid that underlies the display
     """
 
+
     def __init__(self, number_list):
         """
         Initializer
         """
         self.number_list = number_list
-    
-        new_number_list = []    
-        for i in self.number_list:
-            new_number_list.append(i*3)
 
-        self.number_list = new_number_list
+        self.grid = np.empty((ROWS, COLS), dtype=object)
+        self.grid.fill([0, "No Gem"])
 
-    def pokey(self):
-        print("Pokey!")
+    def output_number_grid(self,grid):
+        for i in range(ROWS):
+            # print("Row {}: ".format(i))
+            print_row = ""
+            for j in range(COLS):  
+                print_row += str(grid[i][j])
+            print(print_row + "\n")
 
-    # def init_number_grid():
-    #     # ng = np.empty_like(shape( object, dtype=object)
-    #     ng = np.empty((ROWS, COLS), dtype=object)
-    #     ng.fill([0, "No Gem"])
+    def change_number_grid_xy(self, row, col, arg):
 
-    #     return ng
-
-    # def output_number_grid(ng):
-    #     for i in range(ROWS):
-    #         print("Row {}: ".format(i))
-    #         print_row = ""
-    #         for j in range(COLS):  
-    #             print_row += str(ng[i][j])
-    #         print(print_row + "\n")
-    
+        grid[col-1,row-1] = [2, "gem"]
+        pass
     # number_grid = init_number_grid()
 
     # # populate()
@@ -88,10 +80,12 @@ class NumberGrid:
     # output_number_grid(number_grid)
 
 number_list = [1, 2, 3, 4, 5]
-number_grid = NumberGrid(number_list)
-print(vars(number_grid))
-# print(number_grid[3][2])
-number_grid.pokey()   
+ng = NumberGrid(number_list)
+# print(vars(ng))
+# print(number_grid.grid[3][2])
+ng.output_number_grid(ng.grid)   
+# number_grid.change_number_grid_xy(3, 5, [2, "3Gem"])
+# number_grid.output_number_grid(number_grid.grid)   
 
 def main():
     """ Main method """
