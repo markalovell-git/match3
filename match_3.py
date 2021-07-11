@@ -3,6 +3,7 @@ import math
 import random
 import platform
 import numpy as np
+from numpy.lib.function_base import copy
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -86,6 +87,7 @@ class NumberGrid:
         return(random_number_list)
             
     def check_grid_for_matches(self):
+        match = False
         for i in range(2, ROWS):
             for j in range(2, COLS):
                 # horizontal check
@@ -100,13 +102,18 @@ class NumberGrid:
                 display_i = abs(i - ROWS) - 1
                 if this_number == one_to_the_left == two_to_the_left:
                     print("Horizontal Match at {}, {}.".format(j, display_i))
+                    match = True
                 if this_number == one_above == two_above:
                     print("Vertical Match at {}, {}.".format(j,display_i))
+                    match = True
+        return (match)
 
     def populate_grid_with (self, number_list):
+        copy_number_list = number_list[:]
         for i in range(ROWS):
             for j in range(COLS): 
-                this_number = number_list.pop(0)
+                random_index = random.randint(0, len(copy_number_list)-1)
+                this_number = copy_number_list.pop(random_index)
                 data = {
                     "color" : this_number,
                     "type"  : "3 Gem",
@@ -114,13 +121,26 @@ class NumberGrid:
                 }   
                 self.grid[i][j] = data
 
+
+def init_number_grid():
+    # print(number_grid)
+    random_number_list = number_grid.generate_new_number_list()
+    # we want a starting grid with no matches
+    grid_match = True
+    count = 0
+    while grid_match:
+        count += 1
+        print ("Grid populate attempt #{}".format(count))
+        number_grid.populate_grid_with(random_number_list)
+        grid_match = number_grid.check_grid_for_matches()
+        
+
+    number_grid.print_out_number_grid()   
+
+    
+
 number_grid = NumberGrid()
-random_number_list = number_grid.generate_new_number_list()
-number_grid.populate_grid_with(random_number_list)
-
-number_grid.print_out_number_grid()   
-
-number_grid.check_grid_for_matches()
+init_number_grid()
 
 # def main():
 #     """ Main method """
