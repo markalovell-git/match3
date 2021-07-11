@@ -51,7 +51,6 @@ class NumberGrid:
     The mathematical numbergrid that underlies the display
     """
 
-
     def __init__(self):
         """
         Initializer
@@ -120,27 +119,33 @@ class NumberGrid:
                     "is matched" : False
                 }   
                 self.grid[i][j] = data
-
+class Gem:
+    """
+    The basic Gem building block of the game
+    """
 
 def init_number_grid():
     # print(number_grid)
     random_number_list = number_grid.generate_new_number_list()
     # we want a starting grid with no matches
-    grid_match = True
+    grid_contains_match = True
     count = 0
-    while grid_match:
+    while grid_contains_match:
         count += 1
         print ("Grid populate attempt #{}".format(count))
         number_grid.populate_grid_with(random_number_list)
-        grid_match = number_grid.check_grid_for_matches()
+        grid_contains_match = number_grid.check_grid_for_matches()
         
 
     number_grid.print_out_number_grid()   
 
-    
+def display_number_grid(number_grid):
+    pass    
 
 number_grid = NumberGrid()
 init_number_grid()
+
+display_number_grid(number_grid)
 
 # def main():
 #     """ Main method """
